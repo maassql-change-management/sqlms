@@ -3,14 +3,18 @@
 //there is no reason for the average user to edit anything below this comment
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-# REMOVE_FROM_BUILD
+
 // include default configuration and language
 include './phpliteadmin.config.sample.php';
 include './languages/lang_en.php';
 
-// setup class autoloading
-spl_autoload_register('pla_autoload');
-# END REMOVE_FROM_BUILD
+// load language file
+if($language != 'en') {
+	if(is_file('languages/lang_'.$language.'.php'))
+		include('languages/lang_'.$language.'.php');
+	elseif(is_file('lang_'.$language.'.php'))
+		include('lang_'.$language.'.php');
+}
 
 
 
@@ -32,6 +36,10 @@ define("FORCETYPE", false); //force the extension that will be used (set to fals
 define("SYSTEMPASSWORD", $password); // Makes things easier.
 define('PROJECT_URL','http://phpliteadmin.googlecode.com');
 define('PROJECT_BUGTRACKER_LINK','<a href="http://code.google.com/p/phpliteadmin/issues/list" target="_blank">http://code.google.com/p/phpliteadmin/issues/list</a>');
+
+define('PATH_SITE_ROOT', __DIR__)
+include join_paths(PATH_SITE_ROOT, code, 'code.php');
+
 
 
 // Resource output (css and javascript files)
@@ -60,13 +68,7 @@ if($debug==true)
 $pageTimer = new MicroTimer();
 
 
-// load language file
-if($language != 'en') {
-	if(is_file('languages/lang_'.$language.'.php'))
-		include('languages/lang_'.$language.'.php');
-	elseif(is_file('lang_'.$language.'.php'))
-		include('lang_'.$language.'.php');
-}
+
 
 
 // version-number added so after updating, old session-data is not used anylonger
